@@ -11,7 +11,6 @@ screen.connect_signal('request::desktop_decoration', function(s)
 	local music_box_margin = dpi(5)
 	local music_box_height = dpi(375)
 	local music_box_width = dpi(260)
-	local music_box_x = 5
 
 
 	s.musicpop = awful.popup {
@@ -115,7 +114,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
 					{
 						margins = {
 							top = dpi(5),
-							right = dpi(music_box_x or 5)
+							right = dpi(5)
 						},
 						honor_workarea = true
 					})
