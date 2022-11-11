@@ -10,6 +10,7 @@ local altkey = require('configuration.keys.mod').alt_key
 local apps = require('configuration.apps')
 local revelation = require("utilities.revelation")
 local switcher = require("utilities.awesome_switcher")
+local music_box = require('widget.mpd.music-box')
 
 -- Key bindings
 local global_keys = awful.util.table.join(
@@ -321,7 +322,7 @@ local global_keys = awful.util.table.join(
 		'm',
 		function()
 			if awful.screen.focused().musicpop then
-				awesome.emit_signal('widget::music', 'keyboard')
+				music_box.toggle_music_box('keyboard')
 			end
 		end,
 		{ description = 'toggle music widget', group = 'launcher' }

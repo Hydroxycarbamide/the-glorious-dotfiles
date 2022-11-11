@@ -6,7 +6,6 @@ local config_dir = gears.filesystem.get_configuration_dir()
 local widget_icon_dir = config_dir .. 'widget/mpd/icons/'
 local clickable_container = require('widget.clickable-container')
 local music_box = require('widget.mpd.music-box')
-local toggle_music_box = music_box.toggle_music_box
 
 local return_button = function()
 	local widget = wibox.widget {
@@ -28,15 +27,15 @@ local return_button = function()
 		widget = clickable_container
 	}
 
-	local music_tooltip =  awful.tooltip
+	local music_tooltip = awful.tooltip
 	{
-		objects = {widget_button},
+		objects = { widget_button },
 		text = 'None',
 		mode = 'outside',
 		margin_leftright = dpi(8),
 		margin_topbottom = dpi(8),
 		align = 'right',
-		preferred_positions = {'right', 'left', 'top', 'bottom'}
+		preferred_positions = { 'right', 'left', 'top', 'bottom' }
 	}
 
 	widget_button:buttons(
@@ -47,19 +46,19 @@ local return_button = function()
 				nil,
 				function()
 					music_tooltip.visible = false
-					awesome.emit_signal('widget::music', 'mouse')
+					music_box.toggle_music_box('mouse');
 				end
 			)
 		)
 	)
 
 	widget_button:connect_signal(
-		"mouse::enter", 
-		function() 
+		"mouse::enter",
+		function()
 			awful.spawn.easy_async_with_shell(
 				'mpc status',
-				function(stdout) 
-				music_tooltip.text = string.gsub(stdout, '\n$', '')
+				function(stdout)
+					music_tooltip.text = string.gsub(stdout, '\n$', '')
 				end
 			)
 		end

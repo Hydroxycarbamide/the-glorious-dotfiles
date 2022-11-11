@@ -16,7 +16,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
 
 	s.musicpop = awful.popup {
 		widget = {
-		  -- Removing this block will cause an error...
+			-- Removing this block will cause an error...
 		},
 		ontop = true,
 		visible = false,
@@ -29,21 +29,21 @@ screen.connect_signal('request::desktop_decoration', function(s)
 		offset = dpi(5),
 		shape = gears.shape.rectangle,
 		bg = beautiful.transparent,
-		preferred_anchors = {'middle', 'back', 'front'},
-		preferred_positions = {'left', 'right', 'top', 'bottom'},
+		preferred_anchors = { 'middle', 'back', 'front' },
+		preferred_positions = { 'left', 'right', 'top', 'bottom' },
 
 	}
 
 	local ui_content = require('widget.mpd.content')
 
-	s.album = ui_content.album_cover
-	s.progress_bar = ui_content.progress_bar
-	s.time_track = ui_content.track_time.time_track
-	s.song_info = ui_content.song_info.music_info
+	s.album         = ui_content.album_cover
+	s.progress_bar  = ui_content.progress_bar
+	s.time_track    = ui_content.track_time.time_track
+	s.song_info     = ui_content.song_info.music_info
 	s.media_buttons = ui_content.media_buttons.navigate_buttons
-	s.volume_slider  = ui_content.volume_slider.vol_slider
-	
-	s.musicpop : setup {
+	s.volume_slider = ui_content.volume_slider.vol_slider
+
+	s.musicpop:setup {
 		{
 			{
 				layout = wibox.layout.fixed.vertical,
@@ -112,22 +112,24 @@ screen.connect_signal('request::desktop_decoration', function(s)
 				music_box.visible = true
 				awful.placement.top_right(
 					music_box,
-					{ 
-						margins = { 
+					{
+						margins = {
 							top = dpi(5),
 							right = dpi(music_box_x or 5)
 						},
 						honor_workarea = true
-				})
+					})
 			else
 				local widget_button = mouse.current_widget_geometry
-				
+
 				music_backdrop.visible = true
 				music_box:move_next_to(widget_button)
 				music_box_x = (focused.geometry.width - music_box.x) - music_box_width
 			end
 		end
 	end
+
+	music_func.toggle_music_box = toggle_music_box
 
 	awesome.connect_signal(
 		'widget::music',
@@ -150,9 +152,6 @@ screen.connect_signal('request::desktop_decoration', function(s)
 	)
 end)
 
-
-music_func.toggle_music_box = toggle_music_box
-
 local mpd_updater = require('widget.mpd.mpd-music-updater')
 
-return music_func 
+return music_func
