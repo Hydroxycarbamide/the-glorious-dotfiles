@@ -35,7 +35,7 @@ local tags = {
 		icon = icons.multimedia,
 		default_app = apps.default.multimedia,
 		gap = beautiful.useless_gap,
-		layout = awful.layout.suit.floating,
+		layout = awful.layout.suit.tile,
 		gap = 0
 	},
 	{
@@ -43,7 +43,7 @@ local tags = {
 		icon = icons.games,
 		default_app = apps.default.game,
 		gap = beautiful.useless_gap,
-		layout = awful.layout.suit.floating
+		layout = awful.layout.suit.tile
 	},
 	{
 		type = 'graphics',
@@ -63,7 +63,7 @@ local tags = {
 		icon = icons.development,
 		default_app = apps.default.development,
 		gap = beautiful.useless_gap,
-		layout = awful.layout.suit.floating
+		layout = awful.layout.suit.max
 	}
 	-- {
 	--   type = 'social',
@@ -77,12 +77,12 @@ local tags = {
 tag.connect_signal(
 	'request::default_layouts',
 	function()
-	    awful.layout.append_default_layouts({
-			awful.layout.suit.spiral.dwindle,
+		awful.layout.append_default_layouts({
 			awful.layout.suit.tile,
+			awful.layout.suit.spiral.dwindle,
 			awful.layout.suit.floating,
 			awful.layout.suit.max
-	    })
+		})
 	end
 )
 
@@ -96,7 +96,7 @@ screen.connect_signal(
 				{
 					icon = tag.icon,
 					icon_only = true,
-					layout = tag.layout or awful.layout.suit.spiral.dwindle,
+					layout = tag.layout or awful.layout.suit.tile,
 					gap_single_client = true,
 					gap = tag.gap,
 					screen = s,
@@ -155,8 +155,8 @@ awful.tag.attached_connect_signal(
 	s,
 	'property::selected',
 	function()
-		local urgent_clients = function (c)
-			return awful.rules.match(c, {urgent = true})
+		local urgent_clients = function(c)
+			return awful.rules.match(c, { urgent = true })
 		end
 		for c in awful.client.iterate(urgent_clients) do
 			if c.first_tag == mouse.screen.selected_tag then

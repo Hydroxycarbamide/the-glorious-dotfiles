@@ -89,7 +89,7 @@ local refresh_widget = wibox.widget {
 
 local weather_desc_temp = wibox.widget {
 	{
-		id 	   = 'description',
+		id     = 'description',
 		markup = 'Dust and clouds, -1000°C',
 		font   = 'Inter Regular 10',
 		align  = 'left',
@@ -102,14 +102,14 @@ local weather_desc_temp = wibox.widget {
 	expand = true,
 	direction = 'h',
 	step_function = wibox.container.scroll
-					.step_functions.waiting_nonlinear_back_and_forth,
+			.step_functions.waiting_nonlinear_back_and_forth,
 	fps = 30,
 	layout = wibox.container.scroll.horizontal,
 }
 
 local weather_location = wibox.widget {
 	{
-		id 	   = 'location',
+		id     = 'location',
 		markup = 'Earth, Milky Way',
 		font   = 'Inter Regular 10',
 		align  = 'left',
@@ -122,7 +122,7 @@ local weather_location = wibox.widget {
 	expand = true,
 	direction = 'h',
 	step_function = wibox.container.scroll
-					.step_functions.waiting_nonlinear_back_and_forth,
+			.step_functions.waiting_nonlinear_back_and_forth,
 	fps = 30,
 	layout = wibox.container.scroll.horizontal,
 }
@@ -153,15 +153,15 @@ local weather_data_time = wibox.widget {
 
 local weather_forecast_tooltip = awful.tooltip {
 	text = 'Loading...',
-	objects = {weather_icon_widget},
+	objects = { weather_icon_widget },
 	mode = 'outside',
 	align = 'right',
-	preferred_positions = {'left', 'right', 'top', 'bottom'},
+	preferred_positions = { 'left', 'right', 'top', 'bottom' },
 	margin_leftright = dpi(8),
 	margin_topbottom = dpi(8)
 }
 
-local weather_report =  wibox.widget {
+local weather_report = wibox.widget {
 	{
 		{
 			layout = wibox.layout.fixed.horizontal,
@@ -204,7 +204,7 @@ local weather_report =  wibox.widget {
 						}
 					}
 				},
-				nil				
+				nil
 			}
 		},
 		margins = dpi(10),
@@ -213,9 +213,9 @@ local weather_report =  wibox.widget {
 	forced_height = dpi(92),
 	bg = beautiful.groups_bg,
 	shape = function(cr, width, height)
-		gears.shape.partially_rounded_rect(cr, width, height, true, true, true, true, beautiful.groups_radius) 
+		gears.shape.partially_rounded_rect(cr, width, height, true, true, true, true, beautiful.groups_radius)
 	end,
-	widget = wibox.container.background	
+	widget = wibox.container.background
 }
 
 -- Return weather symbol
@@ -235,7 +235,7 @@ local create_weather_script = function(mode)
 		CITY="]] .. secrets.city_id .. [["
 		UNITS="]] .. secrets.units .. [["
 
-		weather=$(curl -sf "http://api.openweathermap.org/data/2.5/]] .. mode ..
+		weather=$(curl -sf "https://api.openweathermap.org/data/2.5/]] .. mode ..
 			[[?APPID="${KEY}"&id="${CITY}"&units="${UNITS}"")
 
 		if [ ! -z "$weather" ]; then
@@ -270,9 +270,9 @@ awesome.connect_signal(
 						weather = weather:sub(1, 1):upper() .. weather:sub(2)
 
 						forecast = forecast .. '<b>' .. day .. '</b>\n' ..
-						'Weather: ' .. weather .. '\n' ..
-						'Temperature: ' .. temp .. get_weather_symbol() .. '\n' ..
-						'Feels like: ' .. feels_like .. get_weather_symbol() .. '\n\n'
+								'Weather: ' .. weather .. '\n' ..
+								'Temperature: ' .. temp .. get_weather_symbol() .. '\n' ..
+								'Feels like: ' .. feels_like .. get_weather_symbol() .. '\n\n'
 
 						weather_forecast_tooltip:set_markup(forecast:sub(1, -2))
 					end
@@ -290,12 +290,12 @@ awesome.connect_signal(
 			function(stdout)
 				if stdout:match('error') then
 					awesome.emit_signal(
-						'widget::weather_update', 
-						'...', 
-						'Dust and clouds, -1000°C', 
-						'Earth, Milky Way', 
-						'00:00', 
-						'00:00', 
+						'widget::weather_update',
+						'...',
+						'Dust and clouds, -1000°C',
+						'Earth, Milky Way',
+						'00:00',
+						'00:00',
 						'00:00'
 					)
 				else
@@ -322,12 +322,12 @@ awesome.connect_signal(
 					local weather_location = location .. ', ' .. country
 
 					awesome.emit_signal(
-						'widget::weather_update', 
-						weather_icon, 
-						weather_description, 
-						weather_location, 
-						sunrise, 
-						sunset, 
+						'widget::weather_update',
+						weather_icon,
+						weather_description,
+						weather_location,
+						sunrise,
+						sunset,
 						refresh
 					)
 				end
@@ -337,11 +337,11 @@ awesome.connect_signal(
 )
 
 local update_widget_timer = gears.timer {
-	timeout = secrets.update_interval,
-	autostart = true,
-	call_now  = true,
+	timeout     = secrets.update_interval,
+	autostart   = true,
+	call_now    = true,
 	single_shot = false,
-	callback  = function()
+	callback    = function()
 		awesome.emit_signal('widget::weather_fetch')
 		awesome.emit_signal('widget::forecast_fetch')
 	end
@@ -349,14 +349,14 @@ local update_widget_timer = gears.timer {
 
 awesome.connect_signal(
 	'system::network_connected',
-	function() 
+	function()
 		awesome.emit_signal('widget::weather_fetch')
 		awesome.emit_signal('widget::forecast_fetch')
 	end
 )
 
 awesome.connect_signal(
-	'widget::weather_update', 
+	'widget::weather_update',
 	function(code, desc, location, sunrise, sunset, data_receive)
 		local widget_icon_name = 'weather-error'
 
@@ -386,7 +386,7 @@ awesome.connect_signal(
 
 		weather_icon_widget.icon:set_image(widget_icon_dir .. widget_icon_name)
 		weather_icon_widget.icon:emit_signal('widget::redraw_needed')
-		
+
 		weather_desc_temp.description:set_markup(desc)
 		weather_location.location:set_markup(location)
 		weather_sunrise:set_markup(sunrise)

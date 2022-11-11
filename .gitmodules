@@ -1,0 +1,3 @@
+[submodule "config/awesome/floppy/utilities/revelation"]
+	path = config/awesome/floppy/utilities/revelation
+	url = https://github.com/Hydroxycarbamide/the-glorious-dotfiles.git

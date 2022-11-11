@@ -19,6 +19,8 @@ awful.util.shell = 'sh'
 -- ░░▀░░▀░▀░▀▀▀░▀░▀░▀▀▀
 
 beautiful.init(require('theme'))
+local revelation = require("utilities.revelation")
+revelation.init()
 
 -- ░█░░░█▀█░█░█░█▀█░█░█░▀█▀
 -- ░█░░░█▀█░░█░░█░█░█░█░░█░

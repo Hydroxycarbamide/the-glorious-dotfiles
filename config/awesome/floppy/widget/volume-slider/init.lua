@@ -32,17 +32,17 @@ local action_level = wibox.widget {
 local slider = wibox.widget {
 	nil,
 	{
-		id 					= 'volume_slider',
+		id                  = 'volume_slider',
 		bar_shape           = gears.shape.rounded_rect,
 		bar_height          = dpi(2),
 		bar_color           = '#ffffff20',
-		bar_active_color	= '#f2f2f2EE',
+		bar_active_color    = '#f2f2f2EE',
 		handle_color        = '#ffffff',
 		handle_shape        = gears.shape.circle,
 		handle_width        = dpi(15),
 		handle_border_color = '#00000012',
 		handle_border_width = dpi(1),
-		maximum				= 100,
+		maximum             = 100,
 		widget              = wibox.widget.slider,
 	},
 	nil,
@@ -58,8 +58,8 @@ volume_slider:connect_signal(
 	'property::value',
 	function()
 		local volume_level = volume_slider:get_value()
-		
-		spawn('amixer -D pulse sset Master ' .. 
+
+		spawn('./config/awesome/scripts/vol.sh set_volume' ..
 			volume_level .. '%',
 			false
 		)
@@ -104,7 +104,7 @@ volume_slider:buttons(
 
 local update_slider = function()
 	awful.spawn.easy_async_with_shell(
-		[[bash -c "amixer -D pulse sget Master"]],
+		"./.config/awesome/scripts/vol.sh volume",
 		function(stdout)
 			local volume = string.match(stdout, '(%d?%d?%d)%%')
 			volume_slider:set_value(tonumber(volume))
